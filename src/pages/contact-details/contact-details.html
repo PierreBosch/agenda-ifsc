@@ -1,0 +1,57 @@
+
+<ion-header>
+  <ion-navbar color="purple">
+    <ion-title>Detalhes do Contato</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding >
+
+  <div>
+    <ion-card style="borde-radius: 5px;">
+     
+      <ion-card-header style="background-color: #540474; color: #fff;" color="purple">
+        <ion-icon name="person" color="light" style="margin-right: 10px;"></ion-icon>  
+        {{ contact.name }}
+      </ion-card-header>
+      <div style="display: flex; justify-content: center; padding-top: 20px; padding-bottom: 20px;">
+          <ion-avatar>
+              <img
+                style="width:80px; height: 80px;"
+                src="{{ contact.avatar}}"
+                alt="contatact-image"
+              />
+            </ion-avatar>
+      </div>
+        
+     <ion-list>
+       <ion-list-header style="margin-bottom: 0;">
+         Informações do contato
+       </ion-list-header>
+        <ion-item>
+          <b>Nome: </b> {{ contact.name }}
+        </ion-item>
+        <ion-item>
+          <b>Sobrenome: </b> {{ contact.surname }}
+        </ion-item>
+        <ion-item>
+          <b>Telefone: </b> {{ contact.phone }}
+        </ion-item>
+        <ion-item>
+          <b>E-mail: </b> {{ contact.email }}
+        </ion-item>
+     </ion-list>
+    </ion-card>
+  </div>
+
+  <ion-fab bottom right>
+    <button
+      (click)="irParaEdicaoDeContato()"
+      ion-fab
+      color="purple-light-4"
+    >
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

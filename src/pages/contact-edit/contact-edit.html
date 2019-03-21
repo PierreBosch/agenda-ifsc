@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar color="purple">
+    <ion-title>{{ actionDescription }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="form">
+    <ion-list padding>
+      <ion-list-header no-padding>
+        {{ actionDescription }}
+      </ion-list-header>
+      <ion-item-group>
+        <ion-item no-padding>
+          <ion-label color="purple-light-4" stacked>
+            <ion-icon name="person"></ion-icon>&nbsp; Nome Completo
+          </ion-label>
+          <ion-input
+            placeholder="Fulano da Silva"
+            formControlName="name"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item no-padding>
+          <ion-label color="purple-light-4" stacked>
+            <ion-icon name="person"></ion-icon>&nbsp; Apelido
+          </ion-label>
+          <ion-input
+            placeholder="Fulaninho"
+            formControlName="surname"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item no-padding>
+          <ion-label color="purple-light-4" stacked>
+            <ion-icon name="call"></ion-icon>&nbsp; Telefone
+          </ion-label>
+          <ion-input
+            type="tel"
+            placeholder="(00) 00000-0000"
+            [brmasker]="{ phone: true }"
+            formControlName="phone"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item no-padding>
+          <ion-label color="purple-light-4" stacked>
+            <ion-icon name="mail"></ion-icon>&nbsp; E-mail
+          </ion-label>
+          <ion-input
+            placeholder="email@example.com"
+            formControlName="email"
+          ></ion-input
+          >/
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+  </form>
+  <p text-center>
+    <button icon-left color="purple" (click)="escolherFotoAvatar()" ion-button>
+      <ion-icon  name="camera"></ion-icon>
+       Escolher foto</button>
+  </p>
+  <ion-fab bottom right>
+    <button (click)="onSubmit()" ion-fab color="purple-light-4">
+      <ion-icon name="person-add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

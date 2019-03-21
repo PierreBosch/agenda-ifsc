@@ -1,14 +1,46 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="purple">
     <ion-title>
-      Ionic Blank
+      &nbsp; Meus Contatos
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-searchbar
+    [(ngModel)]="searchTerm" [formControl]="searchControl"
+    placeholder="Buscar contatos"
+    (ionInput)="aoDigitarAlgoNoCampo()"
+  ></ion-searchbar>
+
+  <div *ngIf="searching" class="spinner-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list>
+    <ion-list-header no-lines>
+      Aqui estão seus contatos:
+    </ion-list-header>
+
+    <ion-item *ngFor="let contact of contacts " (click)="abrirOpcoesDeContato(contact)">
+      <ion-avatar item-left>
+        <img
+          src="{{ contact.avatar }}"
+          alt="contact-image"
+        />
+      </ion-avatar>
+      {{ contact.name }}
+    </ion-item>
+    <ion-item *ngIf="haveContacts === false" text-center><ion-note>Nenhum contato encontrado</ion-note></ion-item>
+  </ion-list>
+
+  <ion-fab bottom right>
+    <button
+      (click)="irParaPaginaAdicionarNovoContato()"
+      ion-fab
+      color="purple-light-4"
+    >
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

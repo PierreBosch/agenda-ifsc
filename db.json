@@ -1,0 +1,12 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "name": "Fulano",
+      "surname": "Fulaninho",
+      "phone": "(48) 99674-2125",
+      "email": "teste@teste.com",
+      "avatar": "http://lookbh.com.br/wp-content/uploads/2018/01/tb_profile_201303_round1.png"
+    }
+  ]
+}
