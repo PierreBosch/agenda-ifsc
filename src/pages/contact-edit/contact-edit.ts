@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
-import { NavController, NavParams, ActionSheetController } from "ionic-angular";
+import { NavController, NavParams, ActionSheetController, ToastController, LoadingController } from "ionic-angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ContactProvider } from "../../providers/contact/contact";
 import { Camera, CameraOptions } from '@ionic-native/camera';
-
+import { HomePage } from "../home/home";
 
 
 @Component({
@@ -21,7 +21,9 @@ export class ContactEditPage {
     private provider: ContactProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
+    private toastCtrl: ToastController,
     private actionSheetCtrl: ActionSheetController,
+    private loadingCtrl: LoadingController,
     private camera: Camera
   ) {
     this.contact = this.navParams.data.contact || {};
@@ -48,15 +50,26 @@ export class ContactEditPage {
   }
 
   public onSubmit() {
-    if (this.form.valid) {
-      const formValue = {...this.form.value, avatar: this.base64Image}
-      this.provider.salvarContatoFirebase(formValue)
-      .subscribe(() => {
-        this.navCtrl.pop()
-      }, (e) => {
-        console.log("Deu ruim")
-      })
-    }
+    const loading = this.loadingCtrl.create({spinner: 'crescent', content: 'Salvando...', dismissOnPageChange:true});
+
+    loading.present();
+      if (this.form.valid) {
+        const formValue = {...this.form.value, avatar: this.base64Image}
+        this.provider.salvarContato(formValue)
+        .subscribe(async () => {
+          await this.toastCtrl.create({message: "Contato salvo com sucesso", duration: 1500}).present();
+          loading.dismiss();
+          this.navCtrl.setRoot(HomePage)
+         
+        }, (e) => {
+          this.toastCtrl.create({message: "Ocorreu um problema ao adicionar contato", duration: 1500}).present();
+          loading.dismiss();
+        })
+      }
+     
+      
+   
+    
   }
 
   public escolherFotoAvatar(){
@@ -101,7 +114,7 @@ export class ContactEditPage {
     this.camera.getPicture(options).then((imageData) => {
       this.base64Image = 'data:image/jpeg;base64,' + imageData;
      }, (err) => {
-       console.log("Deu erro");
+      this.toastCtrl.create({message: "Ocorreu um problema ao adicionar foto", duration: 1500}).present();
      });
   }
 
@@ -117,7 +130,7 @@ export class ContactEditPage {
     this.camera.getPicture(options).then((imageData) => {
       this.base64Image = 'data:image/jpeg;base64,' + imageData;
      }, (err) => {
-       console.log("Deu erro");
+       this.toastCtrl.create({message: "Ocorreu um problema ao adicionar foto", duration: 1500}).present();
      });
   }
 }

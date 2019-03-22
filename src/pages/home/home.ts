@@ -1,6 +1,6 @@
 import { ContactEditPage } from "./../contact-edit/contact-edit";
 import { Component } from "@angular/core";
-import { NavController, ActionSheetController, AlertController } from "ionic-angular";
+import { NavController, ActionSheetController, AlertController, LoadingController } from "ionic-angular";
 import { ContactProvider } from "../../providers/contact/contact";
 
 import { Observable } from "rxjs";
@@ -15,7 +15,7 @@ import 'rxjs/add/operator/debounceTime';
   templateUrl: "home.html"
 })
 export class HomePage {
-  contacts:any[];
+  contacts:Observable<any>;
   haveContacts:boolean;
   searchTerm: string = '';
   searchControl: FormControl;
@@ -25,6 +25,7 @@ export class HomePage {
     public navCtrl: NavController,
     private actionSheetCtrl: ActionSheetController,
     private provider: ContactProvider,
+    private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
   ) {
     this.searchControl = new FormControl();
@@ -37,32 +38,16 @@ export class HomePage {
         this.searching = false;
         this.setarResultadosDoFiltro();
     });
-    this.buscarTodosContatos();
   }
 
-  buscarTodosContatos(){
-    this.provider.buscarTodosContatosFirebase()
-    .subscribe((contacts:any[]) => {
-      if(contacts.length === 0){
-        this.haveContacts = false;
-      }else{
-        this.haveContacts = true;
-        this.contacts = contacts;
-      }
-    })
-  }
 
-  setarResultadosDoFiltro() {
-    this.provider.buscarPorContatoPesquisado(this.searchTerm)
-    .subscribe((contacts:any[]) => {
-      if(contacts.length === 0){
-        this.haveContacts = false;
-      }else{
-        this.haveContacts = true;
-        this.contacts = contacts;
-      }
-    })
-    
+
+   setarResultadosDoFiltro() {
+    const loading = this.loadingCtrl.create({spinner: 'crescent',content: 'Carregando contatos..'});
+ 
+     loading.present()
+      this.contacts =  this.provider.buscarPorContatoPesquisado(this.searchTerm);
+     loading.dismiss()
   }
 
   aoDigitarAlgoNoCampo(){
@@ -120,9 +105,9 @@ export class HomePage {
         {
           text:"Sim",
           handler: () => {
-            this.provider.removerUmContatoEspecificoFirebase(contact.id)
+            this.provider.removerUmContatoEspecifico(contact.id)
               .subscribe(() => {
-                this.buscarTodosContatos();
+                this.ionViewDidEnter();
               })
           }
         }

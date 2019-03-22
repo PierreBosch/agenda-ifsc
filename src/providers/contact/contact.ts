@@ -7,11 +7,11 @@ export class ContactProvider {
 
   constructor(private http: HttpClient) {}
 
-  buscarTodosContatosFirebase() {
+  buscarTodosContatos() {
     return this.http.get(this.caminho);
   }
 
-  buscarUmContatoEspecificoFirebase(id: string) {
+  buscarUmContatoEspecifico(id: string) {
     return this.http.get(this.caminho + '/' + id);
   }
 
@@ -19,7 +19,7 @@ export class ContactProvider {
     return this.http.get(this.caminho + '?name_like=' + searchTerm);
   }
 
-  salvarContatoFirebase(contact: any) {
+  salvarContato(contact: any) {
     if(contact.id) {
       return this.http.put(this.caminho + '/' + contact.id, {...contact});
     }else{
@@ -27,7 +27,7 @@ export class ContactProvider {
     }
   }
 
-  removerUmContatoEspecificoFirebase(id: string) {
+  removerUmContatoEspecifico(id: string) {
     return this.http.delete(this.caminho + '/' + id)
   }
 }

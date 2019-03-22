@@ -5,11 +5,17 @@
 </ion-header>
 
 <ion-content padding>
+  
   <form [formGroup]="form">
     <ion-list padding>
-      <ion-list-header no-padding>
-        {{ actionDescription }}
-      </ion-list-header>
+      <div *ngIf="base64Image != null" style="width: 100%; display: flex; justify-content: center;">
+          <img style="width: 80px; height: 80px; border-radius: 50px;" [src]="base64Image" />
+        </div>
+        <p text-center>
+          <button icon-left color="purple" (click)="escolherFotoAvatar()" ion-button>
+            <ion-icon  name="camera"></ion-icon>
+              Escolher foto</button>
+        </p>
       <ion-item-group>
         <ion-item no-padding>
           <ion-label color="purple-light-4" stacked>
@@ -56,11 +62,7 @@
       </ion-item-group>
     </ion-list>
   </form>
-  <p text-center>
-    <button icon-left color="purple" (click)="escolherFotoAvatar()" ion-button>
-      <ion-icon  name="camera"></ion-icon>
-       Escolher foto</button>
-  </p>
+
   <ion-fab bottom right>
     <button (click)="onSubmit()" ion-fab color="purple-light-4">
       <ion-icon name="person-add"></ion-icon>

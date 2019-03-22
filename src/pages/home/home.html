@@ -13,16 +13,16 @@
     (ionInput)="aoDigitarAlgoNoCampo()"
   ></ion-searchbar>
 
-  <div *ngIf="searching" class="spinner-container">
+  <!-- <div *ngIf="searching" class="spinner-container">
     <ion-spinner></ion-spinner>
-  </div>
+  </div> -->
 
   <ion-list>
     <ion-list-header no-lines>
       Aqui estão seus contatos:
     </ion-list-header>
 
-    <ion-item *ngFor="let contact of contacts " (click)="abrirOpcoesDeContato(contact)">
+    <ion-item *ngFor="let contact of contacts | async " (click)="abrirOpcoesDeContato(contact)">
       <ion-avatar item-left>
         <img
           src="{{ contact.avatar }}"
@@ -30,8 +30,10 @@
         />
       </ion-avatar>
       {{ contact.name }}
+      <p>{{ contact.phone}}</p>
+
+      <ion-badge item-end color="purple-light-4">{{ contact.surname}}</ion-badge>
     </ion-item>
-    <ion-item *ngIf="haveContacts === false" text-center><ion-note>Nenhum contato encontrado</ion-note></ion-item>
   </ion-list>
 
   <ion-fab bottom right>
